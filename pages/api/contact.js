@@ -4,10 +4,6 @@ async function handler(req, res) {
   if (req.method === "POST") {
     const { email, name, message } = req.body;
 
-    console.log(email);
-    console.log(name);
-    console.log(message);
-
     if (
       !email ||
       !email.includes("@") ||
@@ -29,10 +25,10 @@ async function handler(req, res) {
 
     let client;
 
+    const connectionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.vafwauf.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`;
+
     try {
-      client = await MongoClient.connect(
-        "mongodb+srv://nextjs:Regolith@cluster0.vafwauf.mongodb.net/my-blog?retryWrites=true&w=majority"
-      );
+      client = await MongoClient.connect(connectionString);
     } catch (error) {
       res.status(500).json({ message: "Could not connenct to database" });
       return;
